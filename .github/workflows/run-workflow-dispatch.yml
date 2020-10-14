@@ -1,0 +1,38 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Release trigger
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the main branch
+on:
+  release:
+  push:
+    types: [created, edited]
+
+env:
+  ORG_NAME: dzeyelid
+  REPOSITORY_NAME: playground-dispatch-event-receiver
+  WORKFLOW_NAME: workflow-dispatch.yml
+  TARGET_BRANCH: main
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Run workflow_dispatch
+        uses: octokit/request-action@v2.x
+        id: release_trigger
+        with:
+          route: POST /repos/:org/:reposotory/actions/workflows/:workflow/dispatches
+          org: ${{ ORG_NAME }}
+          repository: ${{ REPOSITORY_NAME }}
+          workflow: ${{ WORKFLOW_NAME }}
+          ref: ${{ TARGET_BRANCH }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
