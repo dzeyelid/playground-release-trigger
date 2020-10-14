@@ -29,6 +29,8 @@ jobs:
         id: release_trigger
         with:
           route: POST /repos/:org/:reposotory/actions/workflows/:workflow/dispatches
+          mediaType: |
+            format: application/vnd.github.v3+json
           org: ${{ env.ORG_NAME }}
           repository: ${{ env.REPOSITORY_NAME }}
           workflow: ${{ env.WORKFLOW_NAME }}
