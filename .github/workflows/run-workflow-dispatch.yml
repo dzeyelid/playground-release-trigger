@@ -32,7 +32,7 @@ jobs:
         uses: octokit/request-action@v2.x
         id: get_latest_release
         with:
-          route: GET /repos/{repository}/releases/latest
+          route: GET /repos/${{ github.repository }}/releases/latest
           repository: ${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -44,7 +44,7 @@ jobs:
         uses: octokit/request-action@v2.x
         id: release_trigger
         with:
-          route: POST /repos/:owner/:reposotory/actions/workflows/:workflow/dispatches
+          route: POST /repos/:owner/:repository/actions/workflows/:workflow/dispatches
           mediaType: |
             format: application/vnd.github.v3+json
           owner: ${{ env.OWNER_NAME }}
