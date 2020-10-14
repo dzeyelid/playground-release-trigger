@@ -42,7 +42,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Output
-        run: "echo ${{ steps.get_latest_release.outputs) }}"
+        run: "echo ${{ steps.get_latest_release.outputs }}"
 
       - name: Run workflow_dispatch
         uses: octokit/request-action@v2.x
