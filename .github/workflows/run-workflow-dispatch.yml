@@ -29,10 +29,10 @@ jobs:
         id: release_trigger
         with:
           route: POST /repos/:org/:reposotory/actions/workflows/:workflow/dispatches
-          org: ${{ ORG_NAME }}
-          repository: ${{ REPOSITORY_NAME }}
-          workflow: ${{ WORKFLOW_NAME }}
-          ref: ${{ TARGET_BRANCH }}
+          org: ${{ env.ORG_NAME }}
+          repository: ${{ env.REPOSITORY_NAME }}
+          workflow: ${{ env.WORKFLOW_NAME }}
+          ref: ${{ env.TARGET_BRANCH }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
