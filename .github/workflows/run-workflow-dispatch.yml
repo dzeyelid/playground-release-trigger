@@ -6,7 +6,12 @@ name: Release trigger
 # events but only for the main branch
 on:
   release:
-    types: [created, edited]
+    types:
+      - published
+      - prereleased
+      - released
+      - created  # temporary for dev
+      - edited   # temporary for dev
 
 env:
   OWNER_NAME: dzeyelid
