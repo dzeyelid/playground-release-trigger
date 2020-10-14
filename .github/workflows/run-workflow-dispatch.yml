@@ -32,7 +32,7 @@ jobs:
         uses: octokit/request-action@v2.x
         id: get_latest_release
         with:
-          route: GET /repos/${{ github.repository }}/releases/latest
+          route: GET /repos/:repository/releases/
           repository: ${{ github.repository }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -55,4 +55,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Output
-        run: echo "${{ toJson(steps.release_trigger.outputs) }}"        
+        run: echo "${{ steps.release_trigger.outputs }}"        
