@@ -29,7 +29,10 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Show event
-        run: echo "${{ toJson(github.event) }}"
+        run: |
+          echo "${{ toJson(github.event) }}"
+          echo "${{ toJson(github.ref) }}"
+
       - name: Test
         uses: octokit/request-action@v2.x
         id: get_latest_release
@@ -40,7 +43,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Output
-        run: echo "${{ toJson(steps.get_latest_release.outputs) }}"        
+        run: echo "${{ fromJson(steps.get_latest_release.outputs) }}"        
 
       - name: Run workflow_dispatch
         uses: octokit/request-action@v2.x
@@ -59,4 +62,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
 
       - name: Output
-        run: echo "${{ toJson(steps.release_trigger.outputs) }}"        
+        run: echo "${{ fromJson(steps.release_trigger.outputs) }}"        
