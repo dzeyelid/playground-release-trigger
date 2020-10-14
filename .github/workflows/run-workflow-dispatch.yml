@@ -30,7 +30,6 @@ jobs:
     steps:
       - name: Show event
         run: |
-          echo "${{ toJson(github.event) }}"
           echo "${{ toJson(github.ref) }}"
 
       - name: Test
@@ -43,7 +42,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Output
-        run: echo "${{ fromJson(steps.get_latest_release.outputs) }}"        
+        run: "echo ${{ steps.get_latest_release.outputs) }}"
 
       - name: Run workflow_dispatch
         uses: octokit/request-action@v2.x
@@ -62,4 +61,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
 
       - name: Output
-        run: echo "${{ fromJson(steps.release_trigger.outputs) }}"        
+        run: "echo ${{ steps.release_trigger.outputs }}"
