@@ -42,11 +42,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Output
-        run: "echo ${{ steps.get_latest_release.outputs }}"
+        env:
+          TEST_CONTENT: ${{ toJson(steps.get_latest_release.outputs) }}
+        run: echo "$TEST_CONTENT"
 
       - name: Run workflow_dispatch
         uses: octokit/request-action@v2.x
-        id: release_trigger
+        id: release_trigger_workflow_dispatch
         with:
           route: POST /repos/:owner/:repository/actions/workflows/:workflow/dispatches
           mediaType: |
@@ -56,9 +58,31 @@ jobs:
           workflow: ${{ env.WORKFLOW_NAME }}
           ref: ${{ env.TARGET_BRANCH }}
           inputs: |
-            release_tag: test
+            origin_ref: ${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
 
       - name: Output
-        run: "echo ${{ steps.release_trigger.outputs }}"
+        env:
+          WORKFLOW_DISPATCH_CONTENT: ${{ toJson(steps.release_trigger_workflow_dispatch.outputs) }}
+        run: echo "$WORKFLOW_DISPATCH_CONTENT"
+
+      - name: Run repository_dispatch
+        uses: octokit/request-action@v2.x
+        id: release_trigger_repository_dispatch
+        with:
+          route: POST /repos/:owner/:repository/dispatches
+          mediaType: |
+            format: application/vnd.github.v3+json
+          owner: ${{ env.OWNER_NAME }}
+          repository: ${{ env.REPOSITORY_NAME }}
+          event_type: generate-sdk
+          client_payload: |
+            origin_ref: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+
+      - name: Output
+        env:
+          REPOSITORY_DISPATCH_CONTENT: ${{ toJson(steps.release_trigger_workflow_dispatch.outputs) }}
+        run: echo "$REPOSITORY_DISPATCH_CONTENT"
