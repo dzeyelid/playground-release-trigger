@@ -58,7 +58,7 @@ jobs:
           workflow: ${{ env.WORKFLOW_NAME }}
           ref: ${{ env.TARGET_BRANCH }}
           inputs: |
-            origin_ref: ${{ github.ref }}
+            origin_ref: refs/tags/v0.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
 
