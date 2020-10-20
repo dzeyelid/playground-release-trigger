@@ -58,7 +58,7 @@ jobs:
           workflow: ${{ env.WORKFLOW_NAME }}
           ref: ${{ env.TARGET_BRANCH }}
           inputs: |
-            origin_ref: ${{ toJson(github.ref) }}
+            origin_ref: "${{ toJson(github.ref) }}"
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
 
